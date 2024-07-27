@@ -75,3 +75,68 @@ CREATE TABLE Trainings (
 );
 
 
+--Audit tables.
+
+CREATE TABLE EmployeeChanges (
+    changeID SERIAL PRIMARY KEY,
+    employeeID INT,
+    changedBy VARCHAR(100),
+    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changeType VARCHAR(50),
+    oldValue JSONB,
+    newValue JSONB,
+    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+);
+
+CREATE TABLE SalaryChanges (
+    changeID SERIAL PRIMARY KEY,
+    salaryID INT,
+    employeeID INT,
+    changedBy VARCHAR(100),
+    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changeType VARCHAR(50),
+    oldValue JSONB,
+    newValue JSONB,
+    FOREIGN KEY (salaryID) REFERENCES Salaries(salaryID),
+    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+);
+
+CREATE TABLE AttendanceChanges (
+    changeID SERIAL PRIMARY KEY,
+    attendanceID INT,
+    employeeID INT,
+    changedBy VARCHAR(100),
+    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changeType VARCHAR(50),
+    oldValue JSONB,
+    newValue JSONB,
+    FOREIGN KEY (attendanceID) REFERENCES Attendances(attendanceID),
+    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+);
+
+CREATE TABLE EvaluationChanges (
+    changeID SERIAL PRIMARY KEY,
+    evaluationID INT,
+    employeeID INT,
+    changedBy VARCHAR(100),
+    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changeType VARCHAR(50),
+    oldValue JSONB,
+    newValue JSONB,
+    FOREIGN KEY (evaluationID) REFERENCES Evaluations(evaluationID),
+    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+);
+
+CREATE TABLE TrainingChanges (
+    changeID SERIAL PRIMARY KEY,
+    trainingID INT,
+    employeeID INT,
+    changedBy VARCHAR(100),
+    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changeType VARCHAR(50),
+    oldValue JSONB,
+    newValue JSONB,
+    FOREIGN KEY (trainingID) REFERENCES Trainings(trainingID),
+    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+);
+
