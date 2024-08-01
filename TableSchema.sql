@@ -11,7 +11,6 @@ CREATE TABLE Employees (
     hireDate DATE,
     position VARCHAR(100),
     department VARCHAR(100),
-    salary DECIMAL(10, 2),
     supervisorID INT,
     status VARCHAR(20),
     CONSTRAINT fk_supervisor FOREIGN KEY (supervisorID) REFERENCES Employees(employeeID)
