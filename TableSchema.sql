@@ -1,141 +1,139 @@
-CREATE TABLE Employees (
-    employeeID SERIAL PRIMARY KEY,
-    firstName VARCHAR(100),
-    lastName VARCHAR(100),
-    dateOfBirth DATE,
+-- Table: employees
+CREATE TABLE employees (
+    employeeid SERIAL PRIMARY KEY,
+    firstname VARCHAR(100),
+    lastname VARCHAR(100),
+    dateofbirth DATE,
     gender VARCHAR(10),
-    maritalStatus VARCHAR(20),
+    maritalstatus VARCHAR(20),
     address VARCHAR(200),
     phone VARCHAR(15),
     email VARCHAR(100),
-    hireDate DATE,
+    hiredate DATE,
     position VARCHAR(100),
     department VARCHAR(100),
-    supervisorID INT,
+    supervisorid INT,
     status VARCHAR(20),
-    CONSTRAINT fk_supervisor FOREIGN KEY (supervisorID) REFERENCES Employees(employeeID)
+    CONSTRAINT fk_supervisor FOREIGN KEY (supervisorid) REFERENCES employees(employeeid)
 );
 
--- Table: Departments
-CREATE TABLE Departments (
-    departmentID SERIAL PRIMARY KEY,
+-- Table: departments
+CREATE TABLE departments (
+    departmentid SERIAL PRIMARY KEY,
     name VARCHAR(100),
     location VARCHAR(100)
 );
 
--- Table: Positions
-CREATE TABLE Positions (
-    positionID SERIAL PRIMARY KEY,
+-- Table: positions
+CREATE TABLE positions (
+    positionid SERIAL PRIMARY KEY,
     name VARCHAR(100),
     description TEXT
 );
 
--- Table: Salaries
-CREATE TABLE Salaries (
-    salaryID SERIAL PRIMARY KEY,
-    employeeID INT,
-    startDate DATE,
-    endDate DATE,
+-- Table: salaries
+CREATE TABLE salaries (
+    salaryid SERIAL PRIMARY KEY,
+    employeeid INT,
+    startdate DATE,
+    enddate DATE,
     amount DECIMAL(10, 2),
-    CONSTRAINT fk_employee FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+    CONSTRAINT fk_employee FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
--- Table: Attendances
-CREATE TABLE Attendances (
-    attendanceID SERIAL PRIMARY KEY,
-    employeeID INT,
+-- Table: attendances
+CREATE TABLE attendances (
+    attendanceid SERIAL PRIMARY KEY,
+    employeeid INT,
     date DATE,
-    checkInTime TIME,
-    checkOutTime TIME,
+    checkintime TIME,
+    checkouttime TIME,
     comments TEXT,
-    CONSTRAINT fk_employee_attendance FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+    CONSTRAINT fk_employee_attendance FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
--- Table: Evaluations
-CREATE TABLE Evaluations (
-    evaluationID SERIAL PRIMARY KEY,
-    employeeID INT,
-    evaluationDate DATE,
+-- Table: evaluations
+CREATE TABLE evaluations (
+    evaluationid SERIAL PRIMARY KEY,
+    employeeid INT,
+    evaluationdate DATE,
     score INT,
     comments TEXT,
-    CONSTRAINT fk_employee_evaluation FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+    CONSTRAINT fk_employee_evaluation FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
--- Table: Trainings
-CREATE TABLE Trainings (
-    trainingID SERIAL PRIMARY KEY,
-    employeeID INT,
-    courseName VARCHAR(100),
-    startDate DATE,
-    endDate DATE,
+-- Table: trainings
+CREATE TABLE trainings (
+    trainingid SERIAL PRIMARY KEY,
+    employeeid INT,
+    coursename VARCHAR(100),
+    startdate DATE,
+    enddate DATE,
     institution VARCHAR(100),
     comments TEXT,
-    CONSTRAINT fk_employee_training FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+    CONSTRAINT fk_employee_training FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
-
---Audit tables.
-
-CREATE TABLE EmployeeChanges (
-    changeID SERIAL PRIMARY KEY,
-    employeeID INT,
-    changedBy VARCHAR(100),
-    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    changeType VARCHAR(50),
-    oldValue JSONB,
-    newValue JSONB,
-    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+-- Audit tables
+CREATE TABLE employeechanges (
+    changeid SERIAL PRIMARY KEY,
+    employeeid INT,
+    changedby VARCHAR(100),
+    changedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changetype VARCHAR(50),
+    oldvalue JSONB,
+    newvalue JSONB,
+    FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
-CREATE TABLE SalaryChanges (
-    changeID SERIAL PRIMARY KEY,
-    salaryID INT,
-    employeeID INT,
-    changedBy VARCHAR(100),
-    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    changeType VARCHAR(50),
-    oldValue JSONB,
-    newValue JSONB,
-    FOREIGN KEY (salaryID) REFERENCES Salaries(salaryID),
-    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+CREATE TABLE salarychanges (
+    changeid SERIAL PRIMARY KEY,
+    salaryid INT,
+    employeeid INT,
+    changedby VARCHAR(100),
+    changedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changetype VARCHAR(50),
+    oldvalue JSONB,
+    newvalue JSONB,
+    FOREIGN KEY (salaryid) REFERENCES salaries(salaryid),
+    FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
-CREATE TABLE AttendanceChanges (
-    changeID SERIAL PRIMARY KEY,
-    attendanceID INT,
-    employeeID INT,
-    changedBy VARCHAR(100),
-    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    changeType VARCHAR(50),
-    oldValue JSONB,
-    newValue JSONB,
-    FOREIGN KEY (attendanceID) REFERENCES Attendances(attendanceID),
-    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+CREATE TABLE attendancechanges (
+    changeid SERIAL PRIMARY KEY,
+    attendanceid INT,
+    employeeid INT,
+    changedby VARCHAR(100),
+    changedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changetype VARCHAR(50),
+    oldvalue JSONB,
+    newvalue JSONB,
+    FOREIGN KEY (attendanceid) REFERENCES attendances(attendanceid),
+    FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
-CREATE TABLE EvaluationChanges (
-    changeID SERIAL PRIMARY KEY,
-    evaluationID INT,
-    employeeID INT,
-    changedBy VARCHAR(100),
-    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    changeType VARCHAR(50),
-    oldValue JSONB,
-    newValue JSONB,
-    FOREIGN KEY (evaluationID) REFERENCES Evaluations(evaluationID),
-    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+CREATE TABLE evaluationchanges (
+    changeid SERIAL PRIMARY KEY,
+    evaluationid INT,
+    employeeid INT,
+    changedby VARCHAR(100),
+    changedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changetype VARCHAR(50),
+    oldvalue JSONB,
+    newvalue JSONB,
+    FOREIGN KEY (evaluationid) REFERENCES evaluations(evaluationid),
+    FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
 
-CREATE TABLE TrainingChanges (
-    changeID SERIAL PRIMARY KEY,
-    trainingID INT,
-    employeeID INT,
-    changedBy VARCHAR(100),
-    changeDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    changeType VARCHAR(50),
-    oldValue JSONB,
-    newValue JSONB,
-    FOREIGN KEY (trainingID) REFERENCES Trainings(trainingID),
-    FOREIGN KEY (employeeID) REFERENCES Employees(employeeID)
+CREATE TABLE trainingchanges (
+    changeid SERIAL PRIMARY KEY,
+    trainingid INT,
+    employeeid INT,
+    changedby VARCHAR(100),
+    changedate TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    changetype VARCHAR(50),
+    oldvalue JSONB,
+    newvalue JSONB,
+    FOREIGN KEY (trainingid) REFERENCES trainings(trainingid),
+    FOREIGN KEY (employeeid) REFERENCES employees(employeeid)
 );
-
